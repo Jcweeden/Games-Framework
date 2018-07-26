@@ -1,7 +1,6 @@
 #include "PauseState.h"
 #include "MenuState.h"
 #include "MenuButton.h"
-#include "MainMenuState.h"
 
 
 
@@ -28,17 +27,24 @@ void PauseState::render()
 
 bool PauseState::onEnter()
 {
+  //load resume button
+  if (!TheRenderManager::Instance()->load("assets/resume.png", "resumeButton", TheGame::Instance()->getRenderer()))
+  {
+    return false;
+  }
 
-  StateParser stateParser;
-  stateParser.parseState("///Users/Joshua/Documents/GameDev/Emacs/GamesFramework/XMLDataLoader/data/GameStateObjects.xml", s_pauseID, &m_gameObjects, &m_textureIDList);
+  //load main menu button
+  if (!TheRenderManager::Instance()->load("assets/main.png", "mainButton", TheGame::Instance()->getRenderer()))
+  {
+    return false;
+  }
 
-  m_callbacks.push_back(0);
-  m_callbacks.push_back(s_pauseToMenu);
-  m_callbacks.push_back(s_resumePlay);
-      
-  setCallbacks(m_callbacks);
-  
-  
+  GameObject* button1 = new MenuButton(new LoaderParams(200,100,200,80,"mainButton"), s_pauseToMenu);
+  GameObject* button2 = new MenuButton(new LoaderParams(200,300,200,80,"resumeButton"), s_resumePlay);
+
+  m_gameObjects.push_back(button1);
+  m_gameObjects.push_back(button2);
+
   std::cout << "PauseState.cpp: entering PauseState\n";
   return true;
 }
@@ -53,8 +59,8 @@ bool PauseState::onExit()
 
   m_gameObjects.clear();
 
-  TheTextureManager::Instance()->clearFromTextureMap("resumeButton");
-  TheTextureManager::Instance()->clearFromTextureMap("mainButton");
+  TheRenderManager::Instance()->clearFromTextureMap("resumeButton");
+  TheRenderManager::Instance()->clearFromTextureMap("mainButton");
 
   //reset mouse button clicks to false
   TheInputHandler::Instance()->reset();
@@ -70,17 +76,5 @@ void PauseState::s_resumePlay()
 
 void PauseState::s_pauseToMenu()
 {
-  TheGame::Instance()->getStateMachine()->changeState(new MainMenuState());
-}
-
-void PauseState::setCallbacks(const std::vector<Callback>& callbacks)
-{
-  for (size_t i = 0 ; i < m_gameObjects.size(); i++)
-  {
-    if(dynamic_cast<MenuButton*>(m_gameObjects[i]))
-    {
-      MenuButton* pButton = dynamic_cast<MenuButton*>(m_gameObjects[i]);
-      pButton->setCallback(callbacks[pButton->getCallbackID()]);
-    }
-  }
+  TheGame::Instance()->getStateMachine()->changeState(new MenuState());
 }

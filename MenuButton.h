@@ -18,7 +18,7 @@ private:
 
   enum button_state
   {
-    //used within TextureManager to multiple the width/height of the image being drawn so
+    //used within RenderManager to multiple the width/height of the image being drawn so
     //different images from the spritesheet are used to represent different button states
     MOUSE_OUT = 0,
     MOUSE_OVER = 1,

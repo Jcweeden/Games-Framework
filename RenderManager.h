@@ -1,16 +1,16 @@
-#ifndef _TextureManager_
-#define _TextureManager_
+#ifndef _RenderManager_
+#define _RenderManager_
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include <iostream>
 #include <map>
 
-class TextureManager {
+class RenderManager {
 
 public:
 
   //define static instance if one does not exist, or return the existing instance
-  static TextureManager* Instance();
+  static RenderManager* Instance();
   
   //loads a file into m_textureMap with the ID being its accessor key
   bool load(std::string fileName, std::string id, SDL_Renderer* pRenderer);
@@ -27,16 +27,16 @@ public:
 private:
 
   //private constructor for singleton - can only be created by Instance() function
-  TextureManager () {};
+  RenderManager () {};
 
-  //singleton instance of TheTextureManager
-  static TextureManager* s_pInstance;
+  //singleton instance of TheRenderManager
+  static RenderManager* s_pInstance;
 
 public:
   //map of pointers to SDL_Texture objects, keyed using strings
   std::map<std::string, SDL_Texture*> m_textureMap;
 };
 
-typedef TextureManager TheTextureManager;
+typedef RenderManager TheRenderManager;
 
 #endif

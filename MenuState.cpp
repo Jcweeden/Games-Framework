@@ -29,13 +29,13 @@ bool MenuState::onEnter(){
   std::cout << "MenuState.cpp: entering Menu State\n";
 
   //load image
-  if(!TheTextureManager::Instance()->load("assets/play.png", "playbutton", TheGame::Instance()->getRenderer()))
+  if(!TheRenderManager::Instance()->load("assets/play.png", "playbutton", TheGame::Instance()->getRenderer()))
   {
     std::cout << "MenuState.cpp: failed to load image\n";
     return false;
   }
 
-  if(!TheTextureManager::Instance()->load("assets/exit.png", "exitbutton", TheGame::Instance()->getRenderer()))
+  if(!TheRenderManager::Instance()->load("assets/exit.png", "exitbutton", TheGame::Instance()->getRenderer()))
   {
     std::cout << "MenuState.cpp: failed to load image\n";
     return false;
@@ -58,8 +58,8 @@ bool MenuState::onExit(){
   }
   m_gameObjects.clear();
 
-  TheTextureManager::Instance()->clearFromTextureMap("playbutton");
-  TheTextureManager::Instance()->clearFromTextureMap("exitbutton");
+  TheRenderManager::Instance()->clearFromTextureMap("playbutton");
+  TheRenderManager::Instance()->clearFromTextureMap("exitbutton");
   
   std::cout << "MenuState.cpp: exiting Menu State\n";
   return true;

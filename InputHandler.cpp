@@ -7,7 +7,7 @@ InputHandler* InputHandler::s_pInstance = 0;
 
 InputHandler* InputHandler::Instance()
 {
-  if(s_pInstance ==0)
+  if(s_pInstance == 0)
   {
     s_pInstance = new InputHandler();
   }

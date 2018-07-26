@@ -32,7 +32,7 @@ protected:
   int m_currentRow;
   int m_currentFrame;
 
-  //stringID that will return the texture associated with the gameObject in TextureManager
+  //stringID that will return the texture associated with the gameObject in RenderManager
   std::string m_textureID;
 };
 

@@ -4,7 +4,6 @@
 #include "PauseState.h"
 #include "GameOverState.h"
 #include "GameObject.h"
-#include "StateParser.h"
 #include "CollisionManager.h"
 
 
@@ -21,13 +20,12 @@ void PlayState::update(){
     m_gameObjects[i]->update();
   }
 
-  if (TheCollManager::Instance()->
-      isCollidingRectRect(dynamic_cast<GameObject*>(m_gameObjects[0]), dynamic_cast<GameObject*>(m_gameObjects[1]), 100))
-  {
+ if (TheCollManager::Instance()->
+      isCollidingRectRect(dynamic_cast<GameObject*>(m_gameObjects[0]), dynamic_cast<GameObject*>(m_gameObjects[1]), 100))  {
     TheGame::Instance()->getStateMachine()->pushState(new GameOverState());
   }
 
-  //check and dequeue the state if it is invalid and ready to delete
+  //Check and dequeue the state if it is invalid and ready to delete
   TheGame::Instance()->getStateMachine()->checkForStatesToRemove();
 }
 
@@ -38,23 +36,36 @@ void PlayState::render(){
 }
 
 bool PlayState::onEnter(){
-  StateParser stateParser;
-  stateParser.parseState("///Users/Joshua/Documents/GameDev/Emacs/GamesFramework/XMLDataLoader/data/GameStateObjects.xml", s_playID, &m_gameObjects, &m_textureIDList);
 
+
+  //PLAYER
+  TheRenderManager::Instance()->load("assets/character.png", "character", TheGame::Instance()->getRenderer());
+  // x,y w, h
+  GameObject* player = new Player(new LoaderParams(300, 100, 42, 55, "character"));
+
+  m_gameObjects.push_back(player);
+
+
+  //ENEMY
+  TheRenderManager::Instance()->load("assets/enemy.png", "enemy", TheGame::Instance()->getRenderer());
+
+  GameObject* enemy = new Enemy(new LoaderParams(100,100,42,55, "enemy"));
+
+  m_gameObjects.push_back(enemy);
+  
   std::cout << "PlayState.cpp: entering PlayState\n";
   return true;
 }
 
 bool PlayState::onExit(){
-  
   for (size_t i; i < m_gameObjects.size(); i++) {
     m_gameObjects[i]->clean();
   }
 
   m_gameObjects.clear();
 
-  TheTextureManager::Instance()->clearFromTextureMap("character");
-  TheTextureManager::Instance()->clearFromTextureMap("enemy");
+  TheRenderManager::Instance()->clearFromTextureMap("character");
+  TheRenderManager::Instance()->clearFromTextureMap("enemy");
   
   std::cout << "PlayState.cpp: exiting PlayState\n";
   return true;

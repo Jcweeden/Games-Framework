@@ -78,7 +78,7 @@ void Game::loadObjects() {
 
 //put textures in memory
  void Game::loadTextures() {
-   TheTextureManager::Instance()->load("assets/animate-alpha.png", "animate",m_pRenderer);
+   TheRenderManager::Instance()->load("assets/animate-alpha.png", "animate",m_pRenderer);
  }
 
 void Game::render()

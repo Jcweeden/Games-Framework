@@ -28,15 +28,15 @@ void GameOverState::render()
 bool GameOverState::onEnter()
 {
   //LOAD IMAGES
-  if(!TheTextureManager::Instance()->load("assets/gameover.png", "gameovertext", TheGame::Instance()->getRenderer()))
+  if(!TheRenderManager::Instance()->load("assets/gameover.png", "gameovertext", TheGame::Instance()->getRenderer()))
   {
     return false;
   }
-  if (!TheTextureManager::Instance()->load("assets/main.png", "mainbutton", TheGame::Instance()->getRenderer()))
+  if (!TheRenderManager::Instance()->load("assets/main.png", "mainbutton", TheGame::Instance()->getRenderer()))
   {
     return false;
   }
-  if (!TheTextureManager::Instance()->load("assets/restart.png", "restartbutton", TheGame::Instance()->getRenderer()))
+  if (!TheRenderManager::Instance()->load("assets/restart.png", "restartbutton", TheGame::Instance()->getRenderer()))
   {
     return false;
   }
@@ -65,9 +65,9 @@ bool GameOverState::onExit()
 
   m_gameObjects.clear();
 
-  TheTextureManager::Instance()->clearFromTextureMap("resumebutton");
-  TheTextureManager::Instance()->clearFromTextureMap("mainbutton");
-  TheTextureManager::Instance()->clearFromTextureMap("gameovertext");
+  TheRenderManager::Instance()->clearFromTextureMap("resumebutton");
+  TheRenderManager::Instance()->clearFromTextureMap("mainbutton");
+  TheRenderManager::Instance()->clearFromTextureMap("gameovertext");
   
   
   //reset mouse button clicks to false

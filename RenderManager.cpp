@@ -1,25 +1,25 @@
 #include <string>
-#include "TextureManager.h"
+#include "RenderManager.h"
 
 //define static instance
-TextureManager* TextureManager::s_pInstance = 0;
+RenderManager* RenderManager::s_pInstance = 0;
 
-TextureManager* TextureManager::Instance()
+RenderManager* RenderManager::Instance()
 {
   if(s_pInstance == 0)
   {
-    s_pInstance = new TextureManager();
+    s_pInstance = new RenderManager();
     return s_pInstance;
   }
   return s_pInstance;
 }
 
 // from calling this function we will have SDL_Texture within m_textureMap that we can access using its ID
-bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer* pRenderer) {
+bool RenderManager::load(std::string fileName, std::string id, SDL_Renderer* pRenderer) {
   SDL_Surface* pTempSurface = IMG_Load(fileName.c_str());
 
   if (pTempSurface == 0) {
-    std::cout << "Error in TextureManager::load(): 'pTempSurface == 0'" << std::endl;
+    std::cout << "Error in RenderManager::load(): 'pTempSurface == 0'" << std::endl;
     return false;
   }
   
@@ -33,13 +33,13 @@ bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer* pR
     return true;
   }
   
-  std::cout << "Error in TextureManager::load()" << std::endl;
+  std::cout << "Error in RenderManager::load()" << std::endl;
   return false;   //reaching here meant something went wrong
 }
 
 // use passed in ID to get the SDL_Texture we want to draw.
 // build our own source and destination variables using the passed in x,y, width,height variables
-void TextureManager::draw(std::string id, int x, int y, int width, int height, SDL_Renderer* pRenderer, SDL_RendererFlip flip){
+void RenderManager::draw(std::string id, int x, int y, int width, int height, SDL_Renderer* pRenderer, SDL_RendererFlip flip){
 
   SDL_Rect srcRect;
   SDL_Rect destRect;
@@ -57,13 +57,13 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height, S
 // create a source rectangle to use appropriate frame of animation using currentFrame and currentRow variables
 // source rect's x pos for the frame is the width of the source rect multipled by current frame
 // source rect's y pos is the height of the rectangle multipled by currentRow-1
-void TextureManager::drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer* pRenderer, SDL_RendererFlip flip) {
+void RenderManager::drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer* pRenderer, SDL_RendererFlip flip) {
   
   SDL_Rect srcRect;
   SDL_Rect destRect;
-  //std::cout << currentFrame<< std::endl;
+  //std::cout << currentFrame << " " << currentRow << std::endl;
   srcRect.x = width * currentFrame;
-  srcRect.y = height * (currentRow - 1);
+  srcRect.y = height * (currentRow-1);
   srcRect.w = destRect.w = width;
   srcRect.h = destRect.h = height;
   destRect.x = x;
@@ -73,7 +73,7 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
 }
 
 //ckears the given texture from the map so it cannot be used again
-void TextureManager::clearFromTextureMap(std::string id)
+void RenderManager::clearFromTextureMap(std::string id)
 {
   m_textureMap.erase(id);
 }

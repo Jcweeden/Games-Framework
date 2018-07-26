@@ -2,7 +2,7 @@
 #define _Enemy_
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
-#include "TextureManager.h"
+#include "RenderManager.h"
 #include "GameObject.h"
 #include <iostream>
 
